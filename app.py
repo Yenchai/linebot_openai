@@ -27,7 +27,7 @@ def handle_message(event):
     text1=event.message.text
     response = openai.ChatCompletion.create(
         messages=[
-            {"role": "Securities Analyst", "stock analysis": text1}
+            {"role": "teacher", "teaching": text1}
         ],
         model="gpt-3.5-turbo-0125",
         temperature = 0.5,
