@@ -9,9 +9,6 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler1 = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 
-# 設置counter初始值
-message_counter = 0
-
 app = Flask(__name__)
 
 @app.route('/callback', methods=['POST'])
@@ -26,11 +23,17 @@ def callback():
 
 @handler1.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global message_counter  # 訪問counter的值
     text1 = event.message.text
+    # 定義用戶的個性資訊
+    user_profile = {
+        "occupation": "證券分析師",  # 用戶的職業
+        "ability": "股票分析"         # 用戶的能力
+    }
+    # 呼叫 OpenAI 的 ChatCompletion API，並傳入用戶的個性資訊
     response = openai.ChatCompletion.create(
         messages=[
-            {"role": "user", "content": text1}
+            {"role": "user", "content": text1},
+            {"role": "system", "content": user_profile}  # 將用戶個性資訊添加到請求中
         ],
         model="gpt-3.5-turbo-0125",
         temperature=0.5,
@@ -40,8 +43,6 @@ def handle_message(event):
     except:
         ret = '發生錯誤！'
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ret))
-    message_counter += 1  # 每次處理時，增加counter的值
-    print("counter:", message_counter)  # 輸出counter的值
 
 if __name__ == '__main__':
     app.run()
