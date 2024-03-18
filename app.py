@@ -27,8 +27,8 @@ def handle_message(event):
     text1 = event.message.text
     #在此增加能力與職業
     user_ability = {
-        "職業": "老師",
-        "技能": "教學"
+        "職業": "股票分析師",
+        "技能": "分析股票"
     }
     response = openai.ChatCompletion.create(
         messages=[
