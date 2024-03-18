@@ -33,7 +33,8 @@ def handle_message(event):
     }
     messages = [
         {"role": "user", "content": text1},
-        {"role": "system", "content": user_profile}
+        {"role": "assistant", "content": "職業是：" + user_profile["occupation"] + "，能力是：" + user_profile["ability"]}
+
     ]
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-0125",
