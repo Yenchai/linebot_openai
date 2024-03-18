@@ -25,15 +25,15 @@ def callback():
 @handler1.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text1 = event.message.text
-    # 將用戶的個性資訊作為系統訊息的一部分發送
-    user_profile = {
+    #在此增加能力與職業
+    user_ability = {
         "職業": "老師",
         "技能": "教學"
     }
     response = openai.ChatCompletion.create(
         messages=[
             {"role": "user", "content": text1},
-            {"role": "system", "content": "這是用戶的個性資訊：" + str(user_profile)}
+            {"role": "system", "content": "這是GPT的個性資訊：" + str(user_ability)}
         ],
         model="gpt-3.5-turbo-0125",
         temperature=0.5,
