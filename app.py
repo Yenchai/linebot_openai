@@ -31,12 +31,13 @@ def handle_message(event):
             "ability": "股票分析"
         }
     }
+    messages = [
+        {"role": "user", "content": text1},
+        {"role": "system", "content": user_profile}
+    ]
     response = openai.ChatCompletion.create(
-        messages=[
-            {"role": "user", "content": text1},
-            user_profile
-        ],
         model="gpt-3.5-turbo-0125",
+        messages=messages,
         temperature=0.5,
     )
     try:
