@@ -24,16 +24,17 @@ def callback():
 @handler1.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text1 = event.message.text
-    # 定義用戶的個性資訊
     user_profile = {
-        "occupation": "證券分析師",  # 用戶的職業
-        "ability": "股票分析"         # 用戶的能力
+        "role": "system",
+        "content": {
+            "occupation": "證券分析師",
+            "ability": "股票分析"
+        }
     }
-    # 呼叫 OpenAI 的 ChatCompletion API，並傳入用戶的個性資訊
     response = openai.ChatCompletion.create(
         messages=[
             {"role": "user", "content": text1},
-            {"role": "system", "content": user_profile}  # 將用戶個性資訊添加到請求中
+            user_profile
         ],
         model="gpt-3.5-turbo-0125",
         temperature=0.5,
